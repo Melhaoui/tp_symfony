@@ -9,9 +9,31 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Ajouter article</a>
-        </li>
+
+        {% if app.user %}
+          {% if is_granted('ROLE_EDITOR') %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('article_new') }}" >Ajouter article</a>
+            </li>
+          {% endif %}
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_user') }}" >Administrateur</a>
+          </li>
+        {% endif %}
+
+        {% if not app.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_login') }}" >Connexion</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('security_logout') }}" >Déconnexion</a>
+          </li>
+        {% endif %}
+
       </ul>
     </div>
   </div>
